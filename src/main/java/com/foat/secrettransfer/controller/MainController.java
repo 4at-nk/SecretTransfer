@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -13,13 +14,13 @@ public class MainController {
 	@Autowired
 	private SecretService service;
 	
-	@GetMapping("/getsecret/{secretId}")
+	@GetMapping("/getsecret({secretId})")
 	public String getSecret(@PathVariable("secretId") String secretId) {
 		return service.getSecret(secretId).orElse("There is no secret!");
 	}
 	
 	@PostMapping("/savesecret")
-	public String saveSecret(String message) {
+	public String saveSecret(@RequestBody String message) {
 		return service.saveSecret(message);
 	}
 }
