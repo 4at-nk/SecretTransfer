@@ -1,19 +1,25 @@
 package com.foat.secrettransfer.controller;
 
+import com.foat.secrettransfer.service.SecretService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MainController {
 	
-	@GetMapping("/getsecret")
-	public String getSecret() {
-		return "Some secret phrase";
+	@Autowired
+	private SecretService service;
+	
+	@GetMapping("/getsecret/{secretId}")
+	public String getSecret(@PathVariable("secretId") String secretId) {
+		return service.getSecret(secretId).orElse("There is no secret!");
 	}
 	
 	@PostMapping("/savesecret")
-	public String saveSecret() {
-		return "url of some secret";
+	public String saveSecret(String message) {
+		return service.saveSecret(message);
 	}
 }
