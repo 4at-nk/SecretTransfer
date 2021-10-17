@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/secret")
@@ -20,7 +21,8 @@ public class MainController {
 	
 	@GetMapping("/{secretId}")
 	public String getSecret(@PathVariable("secretId") String secretId) {
-		return service.getSecret(secretId).orElse("There is no secret!");
+		return service.getSecret(secretId)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 	
 	@PostMapping
