@@ -3,6 +3,7 @@ package com.foat.secrettransfer.service;
 import com.foat.secrettransfer.model.Secret;
 import com.foat.secrettransfer.repo.SecretRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -29,6 +30,7 @@ public class SecretService {
 		return secretId;
 	}
 	
+	@Cacheable(value = "secretCache")
 	public Optional<String> getSecret(String secretId) {
 		return Optional.ofNullable(repository.findBySecretId(secretId))
 				.map(Secret::getValue);
