@@ -5,6 +5,8 @@ import com.foat.secrettransfer.repo.SecretRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,6 +22,7 @@ public class SecretService {
 		Secret secret = new Secret();
 		secret.setSecretId(secretId);
 		secret.setValue(message);
+		secret.setCreatedDate(LocalDateTime.now());
 		
 		repository.save(secret);
 		
@@ -27,7 +30,12 @@ public class SecretService {
 	}
 	
 	public Optional<String> getSecret(String secretId) {
-		return Optional.ofNullable(repository.getSecretBySecretId(secretId))
+		return Optional.ofNullable(repository.findBySecretId(secretId))
 				.map(Secret::getValue);
+	}
+	
+	@Transactional
+	public void deleteSecretsCreatedBeforeDate(LocalDateTime date) {
+		repository.deleteByCreatedDateBefore(date);
 	}
 }
