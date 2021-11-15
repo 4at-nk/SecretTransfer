@@ -1,8 +1,11 @@
 package com.foat.secrettransfer.controller;
 
+import com.foat.secrettransfer.dto.SecretId;
+import com.foat.secrettransfer.dto.SecretMessage;
 import com.foat.secrettransfer.service.SecretService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,15 +22,16 @@ public class MainController {
 	@Autowired
 	private SecretService service;
 	
-	@GetMapping("/{secretId}")
-	public String getSecret(@PathVariable("secretId") String secretId) {
+	@GetMapping(value = "/{secretId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public SecretMessage getSecret(@PathVariable("secretId") String secretId) {
 		return service.getSecret(secretId)
+				.map(SecretMessage::new)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 	
-	@PostMapping
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
-	public String saveSecret(@RequestBody String message) {
-		return service.saveSecret(message);
+	public SecretId saveSecret(@RequestBody String message) {
+		return new SecretId(service.saveSecret(message));
 	}
 }
