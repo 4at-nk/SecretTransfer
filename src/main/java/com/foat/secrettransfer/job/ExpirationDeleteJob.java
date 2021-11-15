@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 
 @Component
@@ -22,7 +23,7 @@ public class ExpirationDeleteJob implements Job {
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		LocalDateTime expirationDate = LocalDateTime.now()
+		LocalDateTime expirationDate = LocalDateTime.now(ZoneOffset.UTC)
 				.minusDays(7);
 		log.info("Removing of expired secrets - secrets created before {} will be removed",
 				expirationDate.truncatedTo(ChronoUnit.SECONDS));

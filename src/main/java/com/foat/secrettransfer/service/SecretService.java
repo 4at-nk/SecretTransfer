@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ public class SecretService {
 		Secret secret = new Secret();
 		secret.setSecretId(secretId);
 		secret.setValue(message);
-		secret.setCreatedDate(LocalDateTime.now());
+		secret.setCreatedDate(LocalDateTime.now(ZoneOffset.UTC));
 		
 		repository.save(secret);
 		
