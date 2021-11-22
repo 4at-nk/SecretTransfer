@@ -31,7 +31,7 @@ public class MainController {
 	
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
-	public SecretId saveSecret(@RequestBody String message) {
-		return new SecretId(service.saveSecret(message));
+	public SecretId saveSecret(@RequestBody SecretMessage message) {
+		return new SecretId(service.saveSecret(message.getMessage()));
 	}
 }
