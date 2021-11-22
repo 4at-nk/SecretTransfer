@@ -4,6 +4,9 @@ public class SecretMessage {
 
 	private String message;
 
+	public SecretMessage() {
+	}
+
 	public SecretMessage(String message) {
 		this.message = message;
 	}
