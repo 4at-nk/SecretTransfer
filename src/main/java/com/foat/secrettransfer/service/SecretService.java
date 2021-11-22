@@ -31,7 +31,7 @@ public class SecretService {
 		return secretId;
 	}
 	
-	@Cacheable(value = "secretCache")
+//	@Cacheable(value = "secretCache")
 	public Optional<String> getSecret(String secretId) {
 		return Optional.ofNullable(repository.findBySecretId(secretId))
 				.map(Secret::getValue);
