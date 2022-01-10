@@ -3,7 +3,7 @@ on:
   release:
     types: [released]
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -12,9 +12,6 @@ jobs:
           java-version: '15'
           distribution: 'adopt'
       - run: mvn test
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
